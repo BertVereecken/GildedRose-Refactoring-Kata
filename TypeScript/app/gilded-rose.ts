@@ -63,7 +63,12 @@ export class GildedRose {
     return item.sellIn < 0;
   }
 
-  private updateBackStagePassQuality(item: Item) {
+  private updateBackStagePassQuality(item: Item): void {
+    if (this.hasSellDatePassed(item)) {
+      item.quality = 0;
+      return;
+    }
+
     this.increaseQuality(item);
 
     if (item.sellIn < 11) {
@@ -71,10 +76,6 @@ export class GildedRose {
     }
     if (item.sellIn < 6) {
       this.increaseQuality(item)
-    }
-
-    if (this.hasSellDatePassed(item)) {
-      item.quality = 0;
     }
   }
 
