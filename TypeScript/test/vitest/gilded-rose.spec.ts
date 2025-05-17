@@ -128,7 +128,7 @@ describe('Gilded Rose', () => {
   })
 
   describe('Special items' ,() => {
-    test('Sulfuras never decreases in quality', () => {
+    test('Sulfuras never decreases in quality nor sellIn', () => {
       const sulfuras = new Item('Sulfuras, Hand of Ragnaros', 0, 80);
 
       const gildedRose = new GildedRose([sulfuras]);
