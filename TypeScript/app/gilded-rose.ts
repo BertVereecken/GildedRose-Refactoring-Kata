@@ -14,17 +14,19 @@ export class GildedRose {
         return;
       }
 
+      this.decreaseSellin(item);
+
       if (this.isBackStagePass(item)) {
         this.updateBackStagePassQuality(item);
+        return;
       }
 
-      if (item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert') {
+      if (item.name != 'Aged Brie') {
         this.decreaseQuality(item);
-      } else if (item.quality < 50) {
+      } else {
         this.increaseQuality(item);
       }
 
-      this.decreaseSellin(item);
 
       if (item.sellIn < 0) {
         if (this.isAgedBrie(item)) {
@@ -66,6 +68,8 @@ export class GildedRose {
   }
 
   private updateBackStagePassQuality(item: Item) {
+    this.increaseQuality(item);
+
     if (item.sellIn < 11) {
       this.increaseQuality(item)
     }
