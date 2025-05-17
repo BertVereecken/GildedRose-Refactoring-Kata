@@ -112,6 +112,22 @@ describe('Gilded Rose', () => {
     ])
   })
 
+
+  test('Once the sell date has passed, quality increases twice as fast only for "Aged Brie"', () => {
+    const gildedRose = new GildedRose([
+      new Item('Aged Brie', 2, 10),
+    ]);
+
+    gildedRose.updateQuality();
+    gildedRose.updateQuality();
+    gildedRose.updateQuality();
+    gildedRose.updateQuality();
+
+    expect(gildedRose.items).toEqual<Array<Item>>([
+      new Item('Aged Brie', -2, 16),
+    ])
+  })
+
   test('Quality of an item can never be higher than 50', () => {
     const gildedRose = new GildedRose([
       new Item('Aged Brie', 10, 48),
