@@ -143,7 +143,7 @@ describe('Gilded Rose', () => {
     ])
   })
 
-  describe('Special items' ,() => {
+  describe('Special items', () => {
     test('Sulfuras never decreases in quality nor sellIn', () => {
       const sulfuras = new Item('Sulfuras, Hand of Ragnaros', 0, 80);
 
@@ -220,21 +220,36 @@ describe('Gilded Rose', () => {
       })
     })
 
-    // Does not work properly yet.
-    test.skip('Conjured items degrade twice as fast in quality than other items', () => {
-      const gildedRose = new GildedRose([
-        new Item('some-item', 5, 10),
-        new Item('Conjured Mana Cake', 5, 10)
-      ]);
+    describe('Special item: Conjured items', () => {
+      test('Conjured items degrade twice as fast in quality than other items', () => {
+        const gildedRose = new GildedRose([
+          new Item('some-item', 5, 10),
+          new Item('Conjured Mana Cake', 5, 10)
+        ]);
 
-      gildedRose.updateQuality();
-      gildedRose.updateQuality();
-      gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
 
-      expect(gildedRose.items).toEqual<Array<Item>>([
-        new Item('some-item', 2, 7),
-        new Item('Conjured Mana Cake', 2, 4)
-      ])
-    })
+        expect(gildedRose.items).toEqual<Array<Item>>([
+          new Item('some-item', 2, 7),
+          new Item('Conjured Mana Cake', 2, 4)
+        ])
+      })
+
+      test('Conjured items quality can also not drop below zero', () => {
+        const gildedRose = new GildedRose([
+          new Item('Conjured Mana Cake', 5, 4)
+        ]);
+
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+
+        expect(gildedRose.items).toEqual<Array<Item>>([
+          new Item('Conjured Mana Cake', 2, 0)
+        ])
+      })
+    });
   })
 });

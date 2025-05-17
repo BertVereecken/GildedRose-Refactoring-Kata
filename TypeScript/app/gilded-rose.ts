@@ -15,6 +15,12 @@ export class GildedRose {
 
       this.decreaseSellin(item);
 
+      if (this.isConjuredItem(item)) {
+        this.decreaseQuality(item);
+        this.decreaseQuality(item);
+        return
+      }
+
       if (this.isBackStagePass(item)) {
         this.updateBackStagePassQuality(item);
         return;
@@ -29,6 +35,10 @@ export class GildedRose {
     });
 
     return this.items;
+  }
+
+  private isConjuredItem(item: Item): boolean {
+    return item.name === 'Conjured Mana Cake';
   }
 
   private isBackStagePass(item: Item): boolean {
@@ -87,7 +97,7 @@ export class GildedRose {
     }
   }
 
-  private updateQualityOfNonSpecialItem(item: Item) {
+  private updateQualityOfNonSpecialItem(item: Item): void {
     this.decreaseQuality(item);
 
     if (this.hasSellDatePassed(item)) {

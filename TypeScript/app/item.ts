@@ -1,6 +1,7 @@
 type SpecialItemNames = 'Aged Brie'
   | 'Backstage passes to a TAFKAL80ETC concert'
-  | 'Sulfuras, Hand of Ragnaros';
+  | 'Sulfuras, Hand of Ragnaros'
+  | 'Conjured Mana Cake';
 
 type ItemName = SpecialItemNames | string;
 
