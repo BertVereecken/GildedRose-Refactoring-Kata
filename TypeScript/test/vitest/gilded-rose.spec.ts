@@ -23,7 +23,7 @@ describe('Gilded Rose', () => {
       // this conjured item does not work properly yet
       new Item("Conjured Mana Cake", 3, 6)
     ];
-    
+
     const gildedRose = new GildedRose(items);
 
     let results: Array<Item> = [];
@@ -84,4 +84,18 @@ describe('Gilded Rose', () => {
       ]
     `);
   });
+
+  test('Sulfuras never decreases in quality', () => {
+    const sulfuras = new Item('Sulfuras, Hand of Ragnaros', 0, 80);
+
+    const gildedRose = new GildedRose([sulfuras]);
+
+     gildedRose.updateQuality();
+     gildedRose.updateQuality();
+     gildedRose.updateQuality();
+
+    expect(gildedRose.items).toEqual<Array<Item>>([
+      sulfuras
+    ])
+  })
 });
