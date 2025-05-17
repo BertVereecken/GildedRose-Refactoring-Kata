@@ -97,23 +97,6 @@ describe('Gilded Rose', () => {
     ])
   })
 
-  // Does not work properly yet.
-  test.skip('Conjured items degrade twice as fast in quality than other items', () => {
-    const gildedRose = new GildedRose([
-      new Item('some-item', 5, 10),
-      new Item('Conjured Mana Cake', 5, 10)
-    ]);
-
-    gildedRose.updateQuality();
-    gildedRose.updateQuality();
-    gildedRose.updateQuality();
-
-    expect(gildedRose.items).toEqual<Array<Item>>([
-      new Item('some-item', 2, 7),
-      new Item('Conjured Mana Cake', 2, 4)
-    ])
-  })
-
   test('Once the sell date has passed, quality drops twice as fast', () => {
     const gildedRose = new GildedRose([
       new Item('some-item', 2, 10),
@@ -221,6 +204,21 @@ describe('Gilded Rose', () => {
       })
     })
 
+    // Does not work properly yet.
+    test.skip('Conjured items degrade twice as fast in quality than other items', () => {
+      const gildedRose = new GildedRose([
+        new Item('some-item', 5, 10),
+        new Item('Conjured Mana Cake', 5, 10)
+      ]);
 
+      gildedRose.updateQuality();
+      gildedRose.updateQuality();
+      gildedRose.updateQuality();
+
+      expect(gildedRose.items).toEqual<Array<Item>>([
+        new Item('some-item', 2, 7),
+        new Item('Conjured Mana Cake', 2, 4)
+      ])
+    })
   })
 });
