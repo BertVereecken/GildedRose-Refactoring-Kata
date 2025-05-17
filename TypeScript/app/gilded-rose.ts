@@ -9,7 +9,6 @@ export class GildedRose {
 
   updateQuality() {
     this.items.forEach(item => {
-
       if (this.isSulfurasItem(item)) {
         return;
       }
@@ -21,23 +20,16 @@ export class GildedRose {
         return;
       }
 
-      if (item.name != 'Aged Brie') {
-        this.decreaseQuality(item);
-      } else {
-        this.increaseQuality(item);
+      if (this.isAgedBrie(item)) {
+        this.updateAgedBrieQuality(item);
+        return;
       }
 
-
-      if (item.sellIn < 0) {
-        if (this.isAgedBrie(item)) {
-          this.increaseQuality(item);
-        } else this.decreaseQuality(item)
-      }
+      this.updateQualityOfNonSpecialItem(item);
     });
 
     return this.items;
   }
-
 
   private isBackStagePass(item: Item): boolean {
     return item.name === 'Backstage passes to a TAFKAL80ETC concert';
@@ -67,6 +59,10 @@ export class GildedRose {
     item.sellIn -= 1;
   }
 
+  private hasSellDatePassed(item: Item): boolean {
+    return item.sellIn < 0;
+  }
+
   private updateBackStagePassQuality(item: Item) {
     this.increaseQuality(item);
 
@@ -77,8 +73,24 @@ export class GildedRose {
       this.increaseQuality(item)
     }
 
-    if (item.sellIn < 0) {
+    if (this.hasSellDatePassed(item)) {
       item.quality = 0;
+    }
+  }
+
+  private updateAgedBrieQuality(item: Item): void {
+    this.increaseQuality(item);
+
+    if (this.hasSellDatePassed(item)) {
+      this.increaseQuality(item);
+    }
+  }
+
+  private updateQualityOfNonSpecialItem(item: Item) {
+    this.decreaseQuality(item);
+
+    if (this.hasSellDatePassed(item)) {
+      this.decreaseQuality(item)
     }
   }
 }
