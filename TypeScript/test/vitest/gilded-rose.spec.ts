@@ -158,7 +158,7 @@ describe('Gilded Rose', () => {
     })
 
     describe('Special item: Backstage passes', () => {
-      test('Backstage passes increases in quality twice as fast when the sellIn is 10 or less', () => {
+      test('"Backstage passes" increase in quality twice as fast when the sellIn is 10 or less', () => {
         const gildedRose = new GildedRose([
           new Item('Backstage passes to a TAFKAL80ETC concert', 10, 10),
         ]);
@@ -173,7 +173,7 @@ describe('Gilded Rose', () => {
         ])
       })
 
-      test('Backstage passes increases in quality three times as fast when the sellIn is 5 or less', () => {
+      test('"Backstage passes" increase in quality three times as fast when the sellIn is 5 or less', () => {
         const gildedRose = new GildedRose([
           new Item('Backstage passes to a TAFKAL80ETC concert', 5, 10),
         ]);
