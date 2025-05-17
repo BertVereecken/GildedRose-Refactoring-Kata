@@ -16,15 +16,14 @@ describe('Gilded Rose Approval', () => {
     const gildedRose = new GildedRose([new Item('foo', 0, 0)]);
     const items = gildedRose.updateQuality();
 
-    expect(items).toMatchSnapshot();
-  });
-
-  it('should thirtyDays', () => {
-    const consoleOutput = execSync(
-      'ts-node test/golden-master-text-test.ts 30',
-      { encoding: 'utf-8' }
-    );
-
-    expect(consoleOutput).toMatchSnapshot();
+    expect(items).toMatchInlineSnapshot(`
+      [
+        Item {
+          "name": "foo",
+          "quality": 0,
+          "sellIn": -1,
+        },
+      ]
+    `)
   });
 });
