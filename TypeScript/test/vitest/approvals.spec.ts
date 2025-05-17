@@ -1,5 +1,6 @@
 import { execSync } from 'node:child_process';
-import { Item, GildedRose } from '@/gilded-rose';
+import { GildedRose } from '@/gilded-rose';
+import {Item} from "@/item";
 
 /**
  * This test uses Vitest Snapshot, similar to [Jest Snapshot](https://goo.gl/fbAQLP).
