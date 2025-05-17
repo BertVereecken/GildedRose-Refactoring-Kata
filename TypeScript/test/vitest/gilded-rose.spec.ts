@@ -85,20 +85,6 @@ describe('Gilded Rose', () => {
     `);
   });
 
-  test('Sulfuras never decreases in quality', () => {
-    const sulfuras = new Item('Sulfuras, Hand of Ragnaros', 0, 80);
-
-    const gildedRose = new GildedRose([sulfuras]);
-
-     gildedRose.updateQuality();
-     gildedRose.updateQuality();
-     gildedRose.updateQuality();
-
-    expect(gildedRose.items).toEqual<Array<Item>>([
-      sulfuras
-    ])
-  })
-
   test('Quality can never drop below zero', () => {
     const gildedRose = new GildedRose([new Item('some-item', 0, 1)]);
 
@@ -143,8 +129,6 @@ describe('Gilded Rose', () => {
     ])
   })
 
-
-
   test('Quality of an item can never be higher than 50', () => {
     const gildedRose = new GildedRose([
       new Item('Aged Brie', 10, 48),
@@ -161,6 +145,20 @@ describe('Gilded Rose', () => {
   })
 
   describe('Special items' ,() => {
+    test('Sulfuras never decreases in quality', () => {
+      const sulfuras = new Item('Sulfuras, Hand of Ragnaros', 0, 80);
+
+      const gildedRose = new GildedRose([sulfuras]);
+
+      gildedRose.updateQuality();
+      gildedRose.updateQuality();
+      gildedRose.updateQuality();
+
+      expect(gildedRose.items).toEqual<Array<Item>>([
+        sulfuras
+      ])
+    })
+
     test('Aged brie increases in quality as it ages', () => {
       const gildedRose = new GildedRose([
         new Item('Aged Brie', 10, 10),
@@ -175,7 +173,6 @@ describe('Gilded Rose', () => {
         new Item('Aged Brie', 6, 14),
       ])
     })
-
 
     describe('Special item: Backstage passes', () => {
       test('Backstage passes increases in quality twice as fast when the sellIn is 10 or less', () => {
