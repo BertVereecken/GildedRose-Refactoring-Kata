@@ -31,19 +31,17 @@ export class GildedRose {
         }
       }
 
-      item.sellIn = item.sellIn - 1;
+      this.decreaseSellin(item);
 
       if (item.sellIn < 0) {
-        if (item.name != 'Aged Brie') {
-          if (this.isBackStagePass(item)) {
-            item.quality = item.quality - item.quality
-          } else {
-            if (item.quality > 0) {
-              item.quality = item.quality - 1
-            }
+        if (this.isAgedBrie(item)) {
+            this.increaseQuality(item);
+        } else if (this.isBackStagePass(item)) {
+          item.quality = item.quality - item.quality
+        } else {
+          if (item.quality > 0) {
+            this.decreaseQuality(item)
           }
-        } else if (item.quality < 50) {
-          item.quality = item.quality + 1
         }
       }
     });
@@ -58,5 +56,23 @@ export class GildedRose {
 
   private isSulfurasItem(item: Item): boolean {
     return item.name === 'Sulfuras, Hand of Ragnaros';
+  }
+
+  private isAgedBrie(item: Item): boolean {
+    return item.name === 'Aged Brie';
+  }
+
+  private increaseQuality(item: Item): void {
+    if (item.quality < 50) {
+      item.quality += 1;
+    }
+  }
+
+  private decreaseQuality(item: Item): void {
+      item.quality -= 1;
+  }
+
+  private decreaseSellin(item: Item): void {
+    item.sellIn -= 1;
   }
 }
