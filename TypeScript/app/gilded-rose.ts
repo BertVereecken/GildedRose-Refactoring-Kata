@@ -1,5 +1,10 @@
 import {Item} from "@/item";
 
+const MAX_QUALITY = 50;
+const MIN_QUALITY = 0;
+const BACKSTAGE_PASS_SELLIN_THRESHOLD1 = 11;
+const BACKSTAGE_PASS_SELLIN_THRESHOLD2 = 6;
+
 export class GildedRose {
   items: Array<Item>;
 
@@ -54,13 +59,13 @@ export class GildedRose {
   }
 
   private increaseQuality(item: Item): void {
-    if (item.quality < 50) {
+    if (item.quality < MAX_QUALITY) {
       item.quality += 1;
     }
   }
 
   private decreaseQuality(item: Item): void {
-    if (item.quality > 0) {
+    if (item.quality > MIN_QUALITY) {
       item.quality -= 1;
     }
   }
@@ -75,16 +80,16 @@ export class GildedRose {
 
   private updateBackStagePassQuality(item: Item): void {
     if (this.hasSellDatePassed(item)) {
-      item.quality = 0;
+      item.quality = MIN_QUALITY;
       return;
     }
 
     this.increaseQuality(item);
 
-    if (item.sellIn < 11) {
+    if (item.sellIn < BACKSTAGE_PASS_SELLIN_THRESHOLD1) {
       this.increaseQuality(item)
     }
-    if (item.sellIn < 6) {
+    if (item.sellIn < BACKSTAGE_PASS_SELLIN_THRESHOLD2) {
       this.increaseQuality(item)
     }
   }
