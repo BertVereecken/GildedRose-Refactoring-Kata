@@ -9,13 +9,13 @@ export abstract class BaseItemStrategy implements ItemStrategy {
   protected BACKSTAGE_PASS_SELLIN_THRESHOLD2 = 6;
 
   protected increaseQuality(item: Item): void {
-    if (item.quality < 50) {
+    if (item.quality < this.MAX_QUALITY) {
       item.quality += 1;
     }
   }
 
   protected decreaseQuality(item: Item): void {
-    if (item.quality > 0) {
+    if (item.quality > this.MIN_QUALITY) {
       item.quality -= 1;
     }
   }
