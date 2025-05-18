@@ -12,7 +12,7 @@ export class GildedRose {
     this.items = items;
   }
 
-  private strategies: Record<string, BaseItemStrategy> = {
+  private specialItemStrategies: Record<string, BaseItemStrategy> = {
     [SpecialItems.AGED_BRIE]: new AgedBrieStrategy(),
     [SpecialItems.BACKSTAGE_PASSES]: new BackstagePassesStrategy(),
     [SpecialItems.CONJURED_MANA_CAKE]: new ConjuredItemStrategy(),
@@ -26,7 +26,7 @@ export class GildedRose {
       this.decreaseSellin(item);
 
       // TODO: improve type here // do not cast
-      const specialItemStrategy = this.strategies[item.name as unknown as string];
+      const specialItemStrategy = this.specialItemStrategies[item.name as unknown as string];
 
       if (specialItemStrategy) {
         specialItemStrategy.updateQuality(item);
