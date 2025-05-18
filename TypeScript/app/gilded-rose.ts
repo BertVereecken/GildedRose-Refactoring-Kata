@@ -1,9 +1,10 @@
 import {Item, SpecialItems} from "@/item";
+import {BaseItemStrategy} from "@/base-item";
+import {AgedBrieStrategy} from "@/aged-brie-strategy";
+import {BackstagePassesStrategy} from "@/backstage-passes-strategy";
+import {ConjuredItemStrategy} from "@/conjured-item-strategy";
 
-const MAX_QUALITY = 50;
 const MIN_QUALITY = 0;
-const BACKSTAGE_PASS_SELLIN_THRESHOLD1 = 11;
-const BACKSTAGE_PASS_SELLIN_THRESHOLD2 = 6;
 
 export class GildedRose {
   items: Array<Item>;
@@ -12,57 +13,37 @@ export class GildedRose {
     this.items = items;
   }
 
+  private strategies: Record<string, BaseItemStrategy> = {
+    [SpecialItems.AGED_BRIE]: new AgedBrieStrategy(),
+    [SpecialItems.BACKSTAGE_PASSES]: new BackstagePassesStrategy(),
+    [SpecialItems.CONJURED_MANA_CAKE]: new ConjuredItemStrategy(),
+  };
+
   updateQuality() {
     this.items.forEach(item => {
       if (this.isSulfurasItem(item)) {
         return;
       }
-
       this.decreaseSellin(item);
 
-      if (this.isConjuredItem(item)) {
-        this.decreaseQuality(item);
-        this.decreaseQuality(item);
-        return
+      // TODO: improve type here // do not cast
+      const strategy = this.strategies[item.name as unknown as string];
+
+      if (strategy) {
+        strategy.updateQuality(item);
+      } else {
+        this.updateQualityOfNonSpecialItem(item);
       }
 
-      if (this.isBackStagePass(item)) {
-        this.updateBackStagePassQuality(item);
-        return;
-      }
-
-      if (this.isAgedBrie(item)) {
-        this.updateAgedBrieQuality(item);
-        return;
-      }
-
-      this.updateQualityOfNonSpecialItem(item);
     });
 
     return this.items;
-  }
-
-  private isConjuredItem(item: Item): boolean {
-    return item.name === SpecialItems.CONJURED_MANA_CAKE;
-  }
-
-  private isBackStagePass(item: Item): boolean {
-    return item.name === SpecialItems.BACKSTAGE_PASSES;
   }
 
   private isSulfurasItem(item: Item): boolean {
     return item.name === SpecialItems.SULFURAS;
   }
 
-  private isAgedBrie(item: Item): boolean {
-    return item.name === SpecialItems.AGED_BRIE;
-  }
-
-  private increaseQuality(item: Item): void {
-    if (item.quality < MAX_QUALITY) {
-      item.quality += 1;
-    }
-  }
 
   private decreaseQuality(item: Item): void {
     if (item.quality > MIN_QUALITY) {
@@ -78,29 +59,6 @@ export class GildedRose {
     return item.sellIn < 0;
   }
 
-  private updateBackStagePassQuality(item: Item): void {
-    if (this.hasSellDatePassed(item)) {
-      item.quality = MIN_QUALITY;
-      return;
-    }
-
-    this.increaseQuality(item);
-
-    if (item.sellIn < BACKSTAGE_PASS_SELLIN_THRESHOLD1) {
-      this.increaseQuality(item)
-    }
-    if (item.sellIn < BACKSTAGE_PASS_SELLIN_THRESHOLD2) {
-      this.increaseQuality(item)
-    }
-  }
-
-  private updateAgedBrieQuality(item: Item): void {
-    this.increaseQuality(item);
-
-    if (this.hasSellDatePassed(item)) {
-      this.increaseQuality(item);
-    }
-  }
 
   private updateQualityOfNonSpecialItem(item: Item): void {
     this.decreaseQuality(item);
