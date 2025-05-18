@@ -1,4 +1,4 @@
-import {Item} from "@/item";
+import {Item, SpecialItems} from "@/item";
 
 const MAX_QUALITY = 50;
 const MIN_QUALITY = 0;
@@ -43,19 +43,19 @@ export class GildedRose {
   }
 
   private isConjuredItem(item: Item): boolean {
-    return item.name === 'Conjured Mana Cake';
+    return item.name === SpecialItems.CONJURED_MANA_CAKE;
   }
 
   private isBackStagePass(item: Item): boolean {
-    return item.name === 'Backstage passes to a TAFKAL80ETC concert';
+    return item.name === SpecialItems.BACKSTAGE_PASSES;
   }
 
   private isSulfurasItem(item: Item): boolean {
-    return item.name === 'Sulfuras, Hand of Ragnaros';
+    return item.name === SpecialItems.SULFURAS;
   }
 
   private isAgedBrie(item: Item): boolean {
-    return item.name === 'Aged Brie';
+    return item.name === SpecialItems.AGED_BRIE;
   }
 
   private increaseQuality(item: Item): void {

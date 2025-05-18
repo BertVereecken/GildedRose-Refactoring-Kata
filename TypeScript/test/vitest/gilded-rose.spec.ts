@@ -1,5 +1,6 @@
 import {GildedRose} from '@/gilded-rose';
-import {Item} from "@/item";
+import {Item, SpecialItems} from "@/item";
+import Spec = Mocha.reporters.Spec;
 
 describe('Gilded Rose', () => {
   it('should drop in quality after one day', () => {
@@ -13,15 +14,14 @@ describe('Gilded Rose', () => {
   test('stock should be correct after 30 days', () => {
     const items: Array<Item> = [
       new Item("+5 Dexterity Vest", 10, 20),
-      new Item("Aged Brie", 2, 0),
+      new Item(SpecialItems.AGED_BRIE, 2, 0),
       new Item("Elixir of the Mongoose", 5, 7),
-      new Item("Sulfuras, Hand of Ragnaros", 0, 80),
-      new Item("Sulfuras, Hand of Ragnaros", -1, 80),
-      new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20),
-      new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49),
-      new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49),
-      // this conjured item does not work properly yet
-      new Item("Conjured Mana Cake", 3, 6)
+      new Item(SpecialItems.SULFURAS, 0, 80),
+      new Item(SpecialItems.SULFURAS, -1, 80),
+      new Item(SpecialItems.BACKSTAGE_PASSES, 15, 20),
+      new Item(SpecialItems.BACKSTAGE_PASSES, 10, 49),
+      new Item(SpecialItems.BACKSTAGE_PASSES, 5, 49),
+      new Item(SpecialItems.CONJURED_MANA_CAKE, 3, 6)
     ];
 
     const gildedRose = new GildedRose(items);
@@ -115,7 +115,7 @@ describe('Gilded Rose', () => {
 
   test('Once the sell date has passed, quality increases twice as fast only for "Aged Brie"', () => {
     const gildedRose = new GildedRose([
-      new Item('Aged Brie', 2, 10),
+      new Item(SpecialItems.AGED_BRIE, 2, 10),
     ]);
 
     gildedRose.updateQuality();
@@ -124,13 +124,13 @@ describe('Gilded Rose', () => {
     gildedRose.updateQuality();
 
     expect(gildedRose.items).toEqual<Array<Item>>([
-      new Item('Aged Brie', -2, 16),
+      new Item(SpecialItems.AGED_BRIE, -2, 16),
     ])
   })
 
   test('Quality of an item can never be higher than 50', () => {
     const gildedRose = new GildedRose([
-      new Item('Aged Brie', 10, 48),
+      new Item(SpecialItems.AGED_BRIE, 10, 48),
     ]);
 
     gildedRose.updateQuality();
@@ -139,13 +139,13 @@ describe('Gilded Rose', () => {
     gildedRose.updateQuality();
 
     expect(gildedRose.items).toEqual<Array<Item>>([
-      new Item('Aged Brie', 6, 50),
+      new Item(SpecialItems.AGED_BRIE, 6, 50),
     ])
   })
 
   describe('Special items', () => {
     test('Sulfuras never decreases in quality nor sellIn', () => {
-      const sulfuras = new Item('Sulfuras, Hand of Ragnaros', 0, 80);
+      const sulfuras = new Item(SpecialItems.SULFURAS, 0, 80);
 
       const gildedRose = new GildedRose([sulfuras]);
 
@@ -160,7 +160,7 @@ describe('Gilded Rose', () => {
 
     test('Aged brie increases in quality as it ages', () => {
       const gildedRose = new GildedRose([
-        new Item('Aged Brie', 10, 10),
+        new Item(SpecialItems.AGED_BRIE, 10, 10),
       ]);
 
       gildedRose.updateQuality();
@@ -169,14 +169,14 @@ describe('Gilded Rose', () => {
       gildedRose.updateQuality();
 
       expect(gildedRose.items).toEqual<Array<Item>>([
-        new Item('Aged Brie', 6, 14),
+        new Item(SpecialItems.AGED_BRIE, 6, 14),
       ])
     })
 
     describe('Special item: Backstage passes', () => {
       test('"Backstage passes" increase in quality twice as fast when the sellIn is 10 or less', () => {
         const gildedRose = new GildedRose([
-          new Item('Backstage passes to a TAFKAL80ETC concert', 10, 10),
+          new Item(SpecialItems.BACKSTAGE_PASSES, 10, 10),
         ]);
 
         gildedRose.updateQuality();
@@ -185,13 +185,13 @@ describe('Gilded Rose', () => {
         gildedRose.updateQuality();
 
         expect(gildedRose.items).toEqual<Array<Item>>([
-          new Item('Backstage passes to a TAFKAL80ETC concert', 6, 18),
+          new Item(SpecialItems.BACKSTAGE_PASSES, 6, 18),
         ])
       })
 
       test('"Backstage passes" increase in quality three times as fast when the sellIn is 5 or less', () => {
         const gildedRose = new GildedRose([
-          new Item('Backstage passes to a TAFKAL80ETC concert', 5, 10),
+          new Item(SpecialItems.BACKSTAGE_PASSES, 5, 10),
         ]);
 
         gildedRose.updateQuality();
@@ -200,13 +200,13 @@ describe('Gilded Rose', () => {
         gildedRose.updateQuality();
 
         expect(gildedRose.items).toEqual<Array<Item>>([
-          new Item('Backstage passes to a TAFKAL80ETC concert', 1, 22),
+          new Item(SpecialItems.BACKSTAGE_PASSES, 1, 22),
         ])
       })
 
       test('Quality of backstage passes drops to zero after the concert', () => {
         const gildedRose = new GildedRose([
-          new Item('Backstage passes to a TAFKAL80ETC concert', 2, 10),
+          new Item(SpecialItems.BACKSTAGE_PASSES, 2, 10),
         ]);
 
         gildedRose.updateQuality();
@@ -215,7 +215,7 @@ describe('Gilded Rose', () => {
         gildedRose.updateQuality();
 
         expect(gildedRose.items).toEqual<Array<Item>>([
-          new Item('Backstage passes to a TAFKAL80ETC concert', -2, 0),
+          new Item(SpecialItems.BACKSTAGE_PASSES, -2, 0),
         ])
       })
     })
@@ -224,7 +224,7 @@ describe('Gilded Rose', () => {
       test('Conjured items degrade twice as fast in quality than other items', () => {
         const gildedRose = new GildedRose([
           new Item('some-item', 5, 10),
-          new Item('Conjured Mana Cake', 5, 10)
+          new Item(SpecialItems.CONJURED_MANA_CAKE, 5, 10)
         ]);
 
         gildedRose.updateQuality();
@@ -233,13 +233,13 @@ describe('Gilded Rose', () => {
 
         expect(gildedRose.items).toEqual<Array<Item>>([
           new Item('some-item', 2, 7),
-          new Item('Conjured Mana Cake', 2, 4)
+          new Item(SpecialItems.CONJURED_MANA_CAKE, 2, 4)
         ])
       })
 
       test('Conjured items quality can also not drop below zero', () => {
         const gildedRose = new GildedRose([
-          new Item('Conjured Mana Cake', 5, 4)
+          new Item(SpecialItems.CONJURED_MANA_CAKE, 5, 4)
         ]);
 
         gildedRose.updateQuality();
@@ -247,7 +247,7 @@ describe('Gilded Rose', () => {
         gildedRose.updateQuality();
 
         expect(gildedRose.items).toEqual<Array<Item>>([
-          new Item('Conjured Mana Cake', 2, 0)
+          new Item(SpecialItems.CONJURED_MANA_CAKE, 2, 0)
         ])
       })
     });
