@@ -1,4 +1,3 @@
-import { execSync } from 'node:child_process';
 import { GildedRose } from '@/gilded-rose';
 import {Item} from "@/item";
 
