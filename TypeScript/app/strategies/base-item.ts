@@ -1,5 +1,5 @@
-import {ItemStrategy} from "@/item-strategy";
-import { Item } from "./item";
+import {ItemStrategy} from "@/strategies/item-strategy";
+import {Item} from "@/item";
 
 export abstract class BaseItemStrategy implements ItemStrategy {
 

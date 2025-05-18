@@ -1,5 +1,5 @@
 import {Item} from "@/item";
-import {BaseItemStrategy} from "@/base-item";
+import {BaseItemStrategy} from "@/strategies/base-item";
 
 export class BackstagePassesStrategy extends BaseItemStrategy {
   public updateQuality(item: Item): void {

@@ -1,9 +1,9 @@
 import {Item, SpecialItems} from "@/item";
-import {BaseItemStrategy} from "@/base-item";
-import {AgedBrieStrategy} from "@/aged-brie-strategy";
-import {BackstagePassesStrategy} from "@/backstage-passes-strategy";
-import {ConjuredItemStrategy} from "@/conjured-item-strategy";
-import {NonSpecialItemStrategy} from "@/non-special-item-strategy";
+import {BaseItemStrategy} from "@/strategies/base-item";
+import {AgedBrieStrategy} from "@/strategies/aged-brie-strategy";
+import {BackstagePassesStrategy} from "@/strategies/backstage-passes-strategy";
+import {ConjuredItemStrategy} from "@/strategies/conjured-item-strategy";
+import {NonSpecialItemStrategy} from "@/strategies/non-special-item-strategy";
 
 export class GildedRose {
   items: Array<Item>;
