@@ -5,7 +5,7 @@ export const SpecialItems = {
   CONJURED_MANA_CAKE: 'Conjured Mana Cake'
 } as const;
 
-type ItemName = typeof SpecialItems | string;
+export type ItemName = typeof SpecialItems[keyof typeof SpecialItems] | string;
 
 export class Item {
   name: ItemName;

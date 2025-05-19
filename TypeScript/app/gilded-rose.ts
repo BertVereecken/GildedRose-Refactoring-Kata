@@ -1,4 +1,4 @@
-import {Item, SpecialItems} from "@/item";
+import {Item, ItemName, SpecialItems} from "@/item";
 import {BaseItemStrategy} from "@/strategies/base-item";
 import {AgedBrieStrategy} from "@/strategies/aged-brie-strategy";
 import {BackstagePassesStrategy} from "@/strategies/backstage-passes-strategy";
@@ -13,7 +13,7 @@ export class GildedRose {
     this.items = items;
   }
 
-  private specialItemStrategies: Record<string, BaseItemStrategy> = {
+  private specialItemStrategies: Record<ItemName, BaseItemStrategy> = {
     [SpecialItems.AGED_BRIE]: new AgedBrieStrategy(),
     [SpecialItems.BACKSTAGE_PASSES]: new BackstagePassesStrategy(),
     [SpecialItems.CONJURED_MANA_CAKE]: new ConjuredItemStrategy(),
@@ -22,16 +22,11 @@ export class GildedRose {
 
   updateQuality() {
     this.items.forEach(item => {
-      const specialItemStrategy = this.specialItemStrategies[item.name as unknown as string];
-
-      if (specialItemStrategy) {
-        specialItemStrategy.update(item);
-      } else {
-        const defaultStrategy = new NonSpecialItemStrategy();
-        defaultStrategy.update(item);
-      }
+      const strategy = this.specialItemStrategies[item.name] ?? new NonSpecialItemStrategy();
+      strategy.update(item);
     });
 
     return this.items;
   }
+
 }
