@@ -2,7 +2,9 @@ import {Item} from "@/item";
 import {BaseItemStrategy} from "@/strategies/base-item";
 
 export class BackstagePassesStrategy extends BaseItemStrategy {
-  public updateQuality(item: Item): void {
+  public update(item: Item): void {
+    this.decreaseSellin(item);
+
     if (this.hasSellDatePassed(item)) {
       item.quality = this.MIN_QUALITY;
       return;

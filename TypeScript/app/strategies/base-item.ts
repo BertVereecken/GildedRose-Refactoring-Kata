@@ -24,5 +24,9 @@ export abstract class BaseItemStrategy implements ItemStrategy {
     return item.sellIn < 0;
   }
 
-  abstract updateQuality(item: Item): void;
+  protected decreaseSellin(item: Item): void {
+    item.sellIn -= 1;
+  }
+
+  abstract update(item: Item): void;
 }
