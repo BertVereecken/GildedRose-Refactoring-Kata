@@ -112,22 +112,6 @@ describe('Gilded Rose', () => {
     ])
   })
 
-
-  test('Once the sell date has passed, quality increases twice as fast only for "Aged Brie"', () => {
-    const gildedRose = new GildedRose([
-      new Item(SpecialItems.AGED_BRIE, 2, 10),
-    ]);
-
-    gildedRose.updateQuality();
-    gildedRose.updateQuality();
-    gildedRose.updateQuality();
-    gildedRose.updateQuality();
-
-    expect(gildedRose.items).toEqual<Array<Item>>([
-      new Item(SpecialItems.AGED_BRIE, -2, 16),
-    ])
-  })
-
   test('Quality of an item can never be higher than 50', () => {
     const gildedRose = new GildedRose([
       new Item(SpecialItems.AGED_BRIE, 10, 48),
@@ -158,20 +142,38 @@ describe('Gilded Rose', () => {
       ])
     })
 
-    test('Aged brie increases in quality as it ages', () => {
-      const gildedRose = new GildedRose([
-        new Item(SpecialItems.AGED_BRIE, 10, 10),
-      ]);
+    describe('Special item: Aged Brie', () => {
+      test('"Aged Brie" increases in quality as it ages', () => {
+        const gildedRose = new GildedRose([
+          new Item(SpecialItems.AGED_BRIE, 10, 10),
+        ]);
 
-      gildedRose.updateQuality();
-      gildedRose.updateQuality();
-      gildedRose.updateQuality();
-      gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
 
-      expect(gildedRose.items).toEqual<Array<Item>>([
-        new Item(SpecialItems.AGED_BRIE, 6, 14),
-      ])
+        expect(gildedRose.items).toEqual<Array<Item>>([
+          new Item(SpecialItems.AGED_BRIE, 6, 14),
+        ])
+      })
+
+      test('Once the sell date has passed, quality increases twice as fast only for "Aged Brie"', () => {
+        const gildedRose = new GildedRose([
+          new Item(SpecialItems.AGED_BRIE, 2, 10),
+        ]);
+
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+
+        expect(gildedRose.items).toEqual<Array<Item>>([
+          new Item(SpecialItems.AGED_BRIE, -2, 16),
+        ])
+      })
     })
+
 
     describe('Special item: Backstage passes', () => {
       test('"Backstage passes" increase in quality twice as fast when the sellIn is 10 or less', () => {
