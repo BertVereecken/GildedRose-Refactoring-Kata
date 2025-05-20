@@ -5,7 +5,6 @@ export class ConjuredItemStrategy extends BaseItemStrategy {
   public update(item: Item): void {
     this.decreaseSellin(item);
 
-    this.decreaseQuality(item);
-    this.decreaseQuality(item);
+    this.decreaseQuality(item, 2);
   }
 }

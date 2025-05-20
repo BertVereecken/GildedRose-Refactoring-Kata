@@ -10,13 +10,16 @@ export class BackstagePassesStrategy extends BaseItemStrategy {
       return;
     }
 
-    this.increaseQuality(item);
+    if (item.sellIn < this.BACKSTAGE_PASS_SELLIN_THRESHOLD2) {
+      this.increaseQuality(item, 3);
+      return;
+    }
 
     if (item.sellIn < this.BACKSTAGE_PASS_SELLIN_THRESHOLD1) {
-      this.increaseQuality(item)
+      this.increaseQuality(item, 2);
+      return;
     }
-    if (item.sellIn < this.BACKSTAGE_PASS_SELLIN_THRESHOLD2) {
-      this.increaseQuality(item)
-    }
+
+    this.increaseQuality(item);
   }
 }

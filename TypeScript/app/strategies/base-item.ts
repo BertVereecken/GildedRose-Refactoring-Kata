@@ -3,21 +3,17 @@ import {Item} from "@/item";
 
 export abstract class BaseItemStrategy implements ItemStrategy {
 
-  protected MAX_QUALITY = 50;
-  protected MIN_QUALITY = 0;
-  protected BACKSTAGE_PASS_SELLIN_THRESHOLD1 = 11;
-  protected BACKSTAGE_PASS_SELLIN_THRESHOLD2 = 6;
+  protected readonly MAX_QUALITY = 50;
+  protected readonly MIN_QUALITY = 0;
+  protected readonly BACKSTAGE_PASS_SELLIN_THRESHOLD1 = 11;
+  protected readonly BACKSTAGE_PASS_SELLIN_THRESHOLD2 = 6;
 
-  protected increaseQuality(item: Item): void {
-    if (item.quality < this.MAX_QUALITY) {
-      item.quality += 1;
-    }
+  protected increaseQuality(item: Item, amount = 1): void {
+    item.quality = Math.min(this.MAX_QUALITY, item.quality + amount);
   }
 
-  protected decreaseQuality(item: Item): void {
-    if (item.quality > this.MIN_QUALITY) {
-      item.quality -= 1;
-    }
+  protected decreaseQuality(item: Item, amount = 1): void {
+    item.quality = Math.max(this.MIN_QUALITY, item.quality - amount);
   }
 
   protected hasSellDatePassed(item: Item): boolean {
